@@ -1,27 +1,37 @@
-```mermaid
-flowchart TB
-    subgraph Azure["Azure AKS (Managed)"]
-        A1[Control Plane (Azure-managed)]
-        A2[Worker Node 0 - B2s VM]
-        A3[Worker Node 1 - B2s VM]
-        A4[Worker Node 2 - B2s VM]
-        A5[Workload: NGINX (2 replicas)]
-        A6[Storage: Azure Files (RWX)]
-        A7[SOC: Microsoft Sentinel + Defender]
-    end
+## 🔧 Prerequisites
 
-    subgraph Proxmox["Bare-Metal Cluster (Proxmox VE)"]
-        P1[PN64 - Master (kubeadm)]
-        P2[NUC-1 - Worker]
-        P3[NUC-2 - Worker]
-        P4[Workload: NGINX (2 replicas)]
-        P5[Storage: NFS / local-path PVC]
-        P6[Backup: Raspberry Pi 4B (2 GB, NFS target)]
-        P7[SOC: ELK on Minisforum Mini PC]
-    end
+### 🌐 Environment (Azure Phase)
+- [ ] Active **Azure subscription** (or $100 student credit)
+- [ ] *(Optional)* Public **DNS record** for ingress
 
-    Azure -->|"Migration Runbook"| Proxmox
-```
+### 🛠 Tooling (Azure Phase)
+- [ ] **Azure CLI** ≥ 2.60
+- [ ] **kubectl** ≥ 1.30
+- [ ] **Helm 3**
+
+> ⚡ All Azure steps can also be completed in the **Azure Portal** if you prefer GUI over CLI.
+
+---
+
+### 🏡 Environment (Bare-metal Phase — 3 Nodes)
+- [ ] **3 physical machines** (or mini PCs), each with:
+  - 2–4 CPU cores
+  - 8–16 GB RAM
+  - SSD/NVMe storage (recommended)
+  - Wired Ethernet (recommended)
+- [ ] Reliable L2 network (same subnet for nodes)
+- [ ] *(Optional)* **Raspberry Pi 4B (2 GB+)** as **NFS** backup target for Proxmox `vzdump`
+
+### 🛠 Tooling (Bare-metal Phase)
+- [ ] **Proxmox VE** *(preferred)* or **VMware ESXi Free** (virtualization layer)
+- [ ] **kubeadm** (cluster bootstrap)
+- [ ] **kubectl** ≥ 1.30 (same as Azure)
+- [ ] **Helm 3** (same as Azure)
+- [ ] **MetalLB** (LoadBalancer on bare metal)
+- [ ] **Prometheus + Grafana** (observability stack)
+- [ ] *(Optional)* **ELK stack** (SOC-lite; Beats/Fluent Bit → Logstash → Elasticsearch → Kibana)
+
+
 
 
 -------
